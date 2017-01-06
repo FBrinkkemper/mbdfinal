@@ -4,8 +4,16 @@ import os
 import json
 import pyspark
 
-def doJob(rdd):
-  return rdd.filter(rdd.coordinates.isNotNull()).select(rdd.coordinates.coordinates, rdd.coordinates.type, rdd.user.id, rdd.user.name).rdd
+def doJob(tweets):
+  #return rdd.filter(rdd.coordinates.isNotNull()).select(rdd.coordinates.coordinates, rdd.coordinates.type, rdd.user.id, rdd.user.name).rdd
+  def getBestCoordinate(pair):
+    id, coordinates = pair
+    return id, [round(coordinates[0][0], 2),round(coordinates[0][1], 2)]
+
+  #Krijgt alle tweets met geotags
+  return tweets.filter(tweets.coordinates.isNotNull()).filter(tweets.coordinates.type == "Point").select(tweets.user.id, tweets.coordinates.coordinates).rdd.groupByKey().map(lambda x : (x[0], list(x[1]))).map(lambda x : getBestCoordinate(x))
+  
+  #return tweets.filter(tweets.coordinates.isNotNull()).filter(tweets.coordinates.type == "Point").select(tweets.user.id, tweets.coordinates.coordinates).rdd.reduceByKey(lambda c1,c2: c1+c2)
 
 def main():
   # parse arguments 
