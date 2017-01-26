@@ -1,3 +1,5 @@
 WeTransfer link of the qlik sense file with the dashboard. Available for download until 28-1-2017. Afterwards contact the authors of the article.
 
+Qlick Sense Desktop needs the extension FEI-showhide to work, which is included in the repository and has to be added to the folder Documents\Qlik\Sense\Extensions on your pc.
+
 https://we.tl/mj4ja8zexb
